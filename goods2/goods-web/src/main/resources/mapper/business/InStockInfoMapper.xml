@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goods.business.mapper.InStockInfoMapper">
+
+
+    <select id="GetInStockItemVO" resultType="com.goods.common.vo.business.InStockItemVO">
+select
+bisi.id,
+bisi.in_num,
+bisi.p_num,
+bisi.product_number as count,
+bp.model,
+bp.unit,
+bp.image_url,
+bp.name
+from biz_in_stock_info bisi join biz_product bp on bisi.p_num=bp.p_num
+where bisi.in_num=#{inNum}
+    </select>
+    <select id="findAllStocks" resultType="java.util.Map">
+        select sum(bisi.product_number) as stock,
+        bp.name
+        from biz_in_stock_info bisi
+        join biz_product bp on bisi.p_num = bp.p_num
+        <where>
+            <if test="name==null and name=''">
+                bp.name like concat('%',#{name},'%')
+            </if>
+            <if test="oneCategoryId!=null">
+            and bp.one_category_id=#{oneCategoryId}
+            </if>
+            <if test="twoCategoryId!=null">
+            and bp.two_category_id=#{twoCategoryId}
+            </if>
+            <if test="three_category_id!=null">
+            and bp.three_category_id=#{threeCategoryId}
+            </if>
+        </where>
+        group by bp.name
+    </select>
+</mapper>

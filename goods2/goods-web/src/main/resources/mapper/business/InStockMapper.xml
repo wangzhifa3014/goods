@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goods.business.mapper.InStockMapper">
+
+        <select id="findInStockList" resultType="com.goods.common.model.business.InStock">
+            select * from biz_in_stock
+            <where>
+                <if test="type!=null">
+                    type=#{type}
+                </if>
+                <if test="status!=null ">
+                    and status=#{status}
+                </if>
+                <if test="inNum!=null and  inNum!=''">
+                    and in_num like concat('%',#{inNum},'%')
+                </if>
+                <if test="startTime!=null">
+                    and create_time >=#{startTime}
+                    <!--   &gt;= 等价于 >=
+                        <![CDATA[ and create_time>= #{createTimeBegin}]]>
+                        -->
+                </if>
+                <if test="endTime!=null">
+                    and create_time &lt;= #{endTime}
+                    <!--
+                      &lt;= 等价于 <=
+                      <![CDATA[ and create_time<= #{createTimeEnd}]]>
+                     -->
+                </if>
+            </where>
+        </select>
+
+
+
+</mapper>

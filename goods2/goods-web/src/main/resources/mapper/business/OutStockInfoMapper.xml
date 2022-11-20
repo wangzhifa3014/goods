@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goods.business.mapper.OutStockInfoMapper">
+
+
+
+    <select id="GetOutStockItemVO" resultType="com.goods.common.vo.business.OutStockItemVO">
+select
+    bosi.id,
+    bosi.out_num,
+    bosi.p_num,
+    bosi.product_number as count,
+    bp.model,
+    bp.unit,
+    bp.image_url,
+    bp.name
+from biz_out_stock_info bosi join biz_product bp on bosi.p_num=bp.p_num
+where bosi.out_num=#{outNum}
+    </select>
+</mapper>
