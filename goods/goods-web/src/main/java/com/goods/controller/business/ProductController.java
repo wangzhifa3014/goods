@@ -36,8 +36,8 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/findProductList")
-    public ResponseBean findProductList(Integer pageNum, Integer pageSize, ProductVO productVO, HttpServletRequest request) {
-        pakgecategorys(productVO, request);
+    public ResponseBean findProductList(Integer pageNum, Integer pageSize, ProductVO productVO, Long[] categorys) {
+        productVO.setCategoryKeys(categorys);
         PageVO<Product> productPageVO= productService.findProductList(pageNum,pageSize,productVO);
         return ResponseBean.success(productPageVO);
     }
@@ -60,8 +60,8 @@ public class ProductController {
     }
 
     @GetMapping("/findProducts")
-    public ResponseBean findProducts(Integer pageNum, Integer pageSize, ProductVO productVO,HttpServletRequest request) {
-        pakgecategorys(productVO, request);
+    public ResponseBean findProducts(Integer pageNum, Integer pageSize, ProductVO productVO,Long[] categorys) {
+        productVO.setCategoryKeys(categorys);
         PageVO<Product> productPageVO= productService.findProductList(pageNum,pageSize,productVO);
         return ResponseBean.success(productPageVO);
     }
@@ -111,18 +111,18 @@ public class ProductController {
         return ResponseBean.success(supplier);
     }
 
-    @ApiOperation(value = "加载库存信息")
+    @ApiOperation(value = "条形图 加载库存信息")
     @GetMapping("/findProductStocks")
-    public ResponseBean findProductStocks(Integer pageNum, Integer pageSize,ProductVO productVO,HttpServletRequest request) {
-        pakgecategorys(productVO, request);
+    public ResponseBean findProductStocks(Integer pageNum, Integer pageSize,ProductVO productVO,Long[] categorys) {
+        productVO.setCategoryKeys(categorys);
        PageVO<ProductStockVO> allStocks = productService.findAllStocks(pageNum, pageSize, productVO);
         return ResponseBean.success(allStocks);
     }
 
-    @ApiOperation(value = "物资所有的库存信息")
+    @ApiOperation(value = "饼状图 物资所有的库存信息")
     @GetMapping("/findAllStocks")
-    public ResponseBean findAllStocks(Integer pageNum, Integer pageSize,ProductVO productVO,HttpServletRequest request) {
-        pakgecategorys(productVO, request);
+    public ResponseBean findAllStocks(Integer pageNum, Integer pageSize,ProductVO productVO,Long[] categorys) {
+        productVO.setCategoryKeys(categorys);
         PageVO<ProductStockVO> allStocks = productService.findAllStocks(pageNum, pageSize, productVO);
         List<ProductStockVO> rows = allStocks.getRows();
         return ResponseBean.success(rows);
